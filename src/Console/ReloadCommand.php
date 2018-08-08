@@ -1,5 +1,5 @@
 <?php
-namespace Console;
+namespace FastD\Queue\Console;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

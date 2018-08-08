@@ -3,6 +3,10 @@ namespace FastD\Queue;
 
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
+use FastD\Queue\Console\MigrateCommand;
+use FastD\Queue\Console\ReloadCommand;
+use FastD\Queue\Console\StartCommand;
+use FastD\Queue\Console\StopCommand;
 use Predis\Client;
 use Wangjian\Queue\RedisQueue;
 
@@ -15,6 +19,8 @@ class QueueServiceProvider implements ServiceProviderInterface
         ]);
 
         $container->add('queue', $this->createQueue());
+
+        $this->registerCommands();
     }
 
     protected function createQueue()
@@ -46,5 +52,17 @@ class QueueServiceProvider implements ServiceProviderInterface
                 return new \Wangjian\Queue\MysqlQueue($pdo, $configs['table']);
                 break;
         }
+    }
+
+    protected function registerCommands()
+    {
+        config()->merge([
+            'consoles' => [
+                StartCommand::class,
+                StopCommand::class,
+                MigrateCommand::class,
+                ReloadCommand::class,
+            ],
+        ]);
     }
 }
