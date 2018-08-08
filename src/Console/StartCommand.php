@@ -13,6 +13,6 @@ class StartCommand extends BaseStartCommand
     {
         $this->setName('queue:start')
             ->setDescription('start the queue consumer worker')
-            ->addArgument('name', InputArgument::REQUIRED, 'the worker name', app()->getName());
+            ->addArgument('name', InputArgument::OPTIONAL, 'the worker name', app()->getName());
     }
 }
