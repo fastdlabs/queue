@@ -1,21 +1,15 @@
 <?php
 namespace FastD\Queue\Console;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Wangjian\Queue\Console\StopCommand as BaseStopCommand;
+use Symfony\Component\Console\Input\InputArgument;
 
 class StopCommand extends BaseStopCommand
 {
     protected function configure()
     {
         $this->setName('queue:stop')
-            ->setDescription('stop the queue consumer worker');
-    }
-
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
-        $input->setArgument('name', app()->getName());
-        parent::execute($input, $output);
+            ->setDescription('stop the queue consumer worker')
+            ->addArgument('name', InputArgument::REQUIRED, 'the worker name', app()->getName());
     }
 }
