@@ -11,7 +11,7 @@ class QueueServiceProvider implements ServiceProviderInterface
     public function register(Container $container)
     {
         config()->merge([
-            'queue' => config()->load(app()->getPath() . '/config/auth.php')
+            'queue' => config()->load(app()->getPath() . '/config/queue.php')
         ]);
 
         $container->add('queue', $this->createQueue());
