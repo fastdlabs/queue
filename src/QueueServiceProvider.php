@@ -4,7 +4,6 @@ namespace FastD\Queue;
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
 use FastD\Queue\Console\MigrateCommand;
-use FastD\Queue\Console\ReloadCommand;
 use FastD\Queue\Console\StartCommand;
 use FastD\Queue\Console\StopCommand;
 use Predis\Client;
@@ -65,7 +64,6 @@ class QueueServiceProvider implements ServiceProviderInterface
                 StartCommand::class,
                 StopCommand::class,
                 MigrateCommand::class,
-                ReloadCommand::class,
             ],
         ]);
     }

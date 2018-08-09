@@ -8,11 +8,6 @@ trait LoadConfig
 {
     protected function loadConfig(InputInterface $input, OutputInterface $output)
     {
-        //刷新消息队列配置
-        config()->merge([
-            'queue' => config()->load(app()->getPath() . '/config/queue.php')
-        ]);
-
         $connection = $connection = config()->get('queue.connection', 'default');
 
         $data['QUEUE_ADAPTER'] = config()->get("queue.connections.$connection.driver", 'redis');
