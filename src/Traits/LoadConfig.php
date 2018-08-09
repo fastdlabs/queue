@@ -12,6 +12,7 @@ trait LoadConfig
         config()->merge([
             'queue' => config()->load(app()->getPath() . '/config/queue.php')
         ]);
+
         $connection = $connection = config()->get('queue.connection', 'default');
 
         $data['QUEUE_ADAPTER'] = config()->get("queue.connections.$connection.driver", 'redis');
@@ -35,12 +36,12 @@ trait LoadConfig
         }
 
         $this->configVariables = array_merge($data, [
-            'QUEUE_WORK_QUEUES' => config()->get("queue.connections.$connection.work_queues", 'default'),
-            'QUEUE_WORKERS' => config()->get("queue.connections.$connection.workers", 4),
-            'QUEUE_SLEEP_INTERVAL' => config()->get("queue.connections.$connection.sleep_interval", 5),
-            'QUEUE_MAX_JOBS' => config()->get("queue.connections.$connection.max_jobs", 10000),
-            'QUEUE_MAX_ERROR_TIMES' => config()->get("queue.connections.$connection.max_error_times", 10),
-            'QUEUE_ERROR_INTERVAL' => config()->get("queue.connections.$connection.error_interval", 1),
+            'QUEUE_WORK_QUEUES' => config()->get('queue.work_queues', 'default'),
+            'QUEUE_WORKERS' => config()->get('queue.workers', 4),
+            'QUEUE_SLEEP_INTERVAL' => config()->get('queue.sleep_interval', 5),
+            'QUEUE_MAX_JOBS' => config()->get('queue.max_jobs', 10000),
+            'QUEUE_MAX_ERROR_TIMES' => config()->get('queue.max_error_times', 10),
+            'QUEUE_ERROR_INTERVAL' => config()->get('queue.error_interval', 1),
         ]);
     }
 }
