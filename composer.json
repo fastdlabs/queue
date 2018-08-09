@@ -1,11 +1,5 @@
 {
   "name": "fastd/queue",
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/wangsir0624/queue.git"
-    }
-  ],
   "require": {
     "php": ">=5.6",
     "fastd/fastd": "^3.1",
