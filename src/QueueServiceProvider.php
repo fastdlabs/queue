@@ -25,31 +25,35 @@ class QueueServiceProvider implements ServiceProviderInterface
 
     protected function createQueue()
     {
-        $configs = config()->get('queue.connections')[config()->get('queue.connection')];
+        $connection = config()->get('queue.connection', 'default');
 
-        switch ($configs['driver']) {
+        switch (config()->get("queue.connections.$connection.driver", 'redis')) {
             case 'redis':
                 $data = [
-                    'schema' => $configs['schema'],
-                    'host' => $configs['host'],
-                    'port' => $configs['port'],
-                    'database' => $configs['database'],
+                    'schema' => config()->get("queue.connections.$connection.schema", 'tcp'),
+                    'host' => config()->get("queue.connections.$connection.host", '127.0.0.1'),
+                    'port' => config()->get("queue.connections.$connection.port", 6379),
+                    'database' => config()->get("queue.connections.$connection.database", 0),
                 ];
 
-                if(!empty($configs['password'])) {
-                    $data['password'] = $configs['password'];
+                if(!empty($password = config()->get("queue.connections.$connection.password", null))) {
+                    $data['password'] = $password;
                 }
 
-                return new RedisQueue(new Client($data), $configs['prefix']);
+                return new RedisQueue(new Client($data), config()->get("queue.connections.$connection.prefix", ''));
                 break;
             case 'mysql':
-                $pdo = new \PDO(sprintf(
-                    'mysql:host=%s;port=%d;dbname=%s',
-                    $configs['host'],
-                    $configs['port'],
-                    $configs['database']
-                ), $configs['user'], $configs['pass']);
-                return new \Wangjian\Queue\MysqlQueue($pdo, $configs['table']);
+                $pdo = new \PDO(
+                    sprintf(
+                        'mysql:host=%s;port=%d;dbname=%s',
+                        config()->get("queue.connections.$connection.host", '127.0.0.1'),
+                        config()->get("queue.connections.$connection.port", 3306),
+                        config()->get("queue.connections.$connection.database", 'queue')
+                    ),
+                    config()->get("queue.connections.$connection.user", 'root'),
+                    config()->get("queue.connections.$connection.pass", 'root')
+                );
+                return new \Wangjian\Queue\MysqlQueue($pdo, config()->get("queue.connections.$connection.table", 'queue'));
                 break;
         }
     }

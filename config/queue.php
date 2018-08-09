@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'connection' => 'redis',
+    'connection' => 'default',
 
     'connections' => [
-        'redis' => [
+        'default' => [
             'driver' => 'redis',
             'schema' => 'tcp',
             'host' => '127.0.0.1',
