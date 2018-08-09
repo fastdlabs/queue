@@ -28,9 +28,9 @@ trait LoadConfig
                 $data['QUEUE_MYSQL_HOST'] = config()->get("queue.connections.$connection.host", '127.0.0.1');
                 $data['QUEUE_MYSQL_PORT'] = config()->get("queue.connections.$connection.port", 3306);
                 $data['QUEUE_MYSQL_DATABASE'] = config()->get("queue.connections.$connection.database", 'queue');
-                config()->get("queue.connections.$connection.user", 'root');
-                config()->get("queue.connections.$connection.pass", 'root');
-                config()->get("queue.connections.$connection.table", 'queue');
+                $data['QUEUE_MYSQL_USERNAME'] = config()->get("queue.connections.$connection.user", 'root');
+                $data['QUEUE_MYSQL_PASSWORD'] = config()->get("queue.connections.$connection.pass", 'root');
+                $data['QUEUE_MYSQL_TABLENAME'] = config()->get("queue.connections.$connection.table", 'queue');
                 break;
         }
 
