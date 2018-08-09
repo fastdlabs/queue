@@ -63,5 +63,36 @@ bin/console queue:reload
 
 > 注：重启消费者进程只会更新消息队列配置，如果修改了源代码，则必须先关闭消费者进程，然后再重新启动
 
+### swoole模式自动启动消息队列
+
+如果是swoole模式运行，那么可以添加一个StartQueueProcess进程，这个进程会监听消费者进程，如果消费者进程终止，会自动启动。
+
+```php
+<?php
+return [
+    'host' => 'http://'.get_local_ip().':9527',
+    'class' => \Server\TaskServer::class,
+    'options' => [
+        'user' => 'nobody',
+        'group' => 'nogroup',
+        'pid_file' => __DIR__ . '/../runtime/pid/' . app()->getName() . '.pid',
+        'log_file' => __DIR__ . '/../runtime/logs/' . app()->getName() . '.pid',
+        'log_level' => 5,
+        'worker_num' => 10,
+        'task_worker_num' => 20,
+    ],
+    'processes' => [
+        //添加StartQueueProcess进程
+        \FastD\Queue\Process\StartQueueProcess::class,
+    ],
+    'listeners' => [
+        [
+            'class' => \FastD\Servitization\Server\TCPServer::class,
+            'host' => 'tcp://'.get_local_ip().':9528',
+        ]
+    ],
+];
+```
+
 
 
