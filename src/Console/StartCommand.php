@@ -5,6 +5,7 @@ use FastD\Queue\Traits\LoadConfig;
 use Wangjian\Queue\Console\StartCommand as BaseStartCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 class StartCommand extends BaseStartCommand
 {
@@ -13,7 +14,8 @@ class StartCommand extends BaseStartCommand
     protected function configure()
     {
         $this->setName('queue:start')
-            ->setDescription('start the queue consumer worker');
+            ->setDescription('start the queue consumer worker')
+            ->addOption('daemon', 'd', InputOption::VALUE_OPTIONAL, 'whether run as a daemon');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -24,6 +26,10 @@ class StartCommand extends BaseStartCommand
         if(!empty($out)) {
             $output->writeln('<info>the worker is already running...</info>');
             exit(1);
+        }
+
+        if($input->hasOption('daemon')) {
+            $this->daemonize();
         }
 
         $this->doExecute($input, $output, $workerName, null);
