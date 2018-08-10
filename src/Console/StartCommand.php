@@ -15,7 +15,7 @@ class StartCommand extends BaseStartCommand
     {
         $this->setName('queue:start')
             ->setDescription('start the queue consumer worker')
-            ->addOption('daemon', 'd', InputOption::VALUE_OPTIONAL, 'whether run as a daemon');
+            ->addOption('daemon', 'd', InputOption::VALUE_NONE, 'whether run as a daemon');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -28,7 +28,7 @@ class StartCommand extends BaseStartCommand
             exit(1);
         }
 
-        if($input->hasOption('daemon')) {
+        if($input->getOption('daemon')) {
             $this->daemonize();
         }
 

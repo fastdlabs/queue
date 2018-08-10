@@ -14,12 +14,10 @@ class StartQueueProcess extends Process
         $workerName = app()->getName();
         exec("ps -ef | awk '$8 == \"queue:$workerName:master\" {print $2}'", $out, $return);
         if (empty($out)) {
-            (new swoole_process(function ($process) {
-                $command = new StartCommand();
-                $input = new ArrayInput([]);
-                $output = new ConsoleOutput();
-                $command->execute($input, $output);
-            }))->start();
+            $command = new StartCommand();
+            $input = new ArrayInput([]);
+            $output = new ConsoleOutput();
+            $command->execute($input, $output);
         }
     }
 }
