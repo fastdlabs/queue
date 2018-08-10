@@ -15,7 +15,7 @@ class StartQueueProcess extends Process
         exec("ps -ef | awk '$8 == \"queue:$workerName:master\" {print $2}'", $out, $return);
         if (empty($out)) {
             $command = new StartCommand();
-            $input = new ArrayInput([]);
+            $input = new ArrayInput([], $command->getDefinition());
             $output = new ConsoleOutput();
             $command->execute($input, $output);
         }
